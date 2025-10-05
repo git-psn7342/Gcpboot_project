@@ -8,7 +8,7 @@ steps:
     args:
       [
         'build',
-        '-t', 'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:\$SHORT_SHA',
+        '-t', 'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:$SHORT_SHA',
         '.'
       ]
 
@@ -17,7 +17,7 @@ steps:
     args:
       [
         'push',
-        'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:\$SHORT_SHA'
+        'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:$SHORT_SHA'
       ]
 
   # Step 3: Deploy image to existing Cloud Run service
@@ -26,7 +26,7 @@ steps:
     args:
       [
         'run', 'deploy', 'customer-site',
-        '--image', 'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:\$SHORT_SHA',
+        '--image', 'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:$SHORT_SHA',
         '--region', 'us-central1',
         '--platform', 'managed',
         '--allow-unauthenticated'
@@ -34,4 +34,4 @@ steps:
 
 # Keep track of the image built
 images:
-  - 'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:\$SHORT_SHA'
+  - 'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:$SHORT_SHA'
