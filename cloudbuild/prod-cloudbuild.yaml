@@ -1,0 +1,34 @@
+
+steps:
+  # Step 1: Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t', 'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:\$SHORT_SHA',
+        '.'
+      ]
+
+  # Step 2: Push Docker image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'push',
+        'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:\$SHORT_SHA'
+      ]
+
+  # Step 3: Deploy image to existing Cloud Run service
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        'run', 'deploy', 'customer-site',
+        '--image', 'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:\$SHORT_SHA',
+        '--region', 'us-central1',
+        '--platform', 'managed',
+        '--allow-unauthenticated'
+      ]
+
+# Keep track of the image built
+images:
+  - 'us-central1-docker.pkg.dev/refined-oven-469220-v2/my-docker-repo/customer-site:\$SHORT_SHA'
