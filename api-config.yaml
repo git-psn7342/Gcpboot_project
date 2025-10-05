@@ -1,0 +1,23 @@
+swagger: "2.0"
+info:
+  title: "ShopSphere API"
+  description: "API Gateway in front of Cloud Run"
+  version: "1.0.0"
+host: "shopsphere-api.endpoints.refined-oven-469220-v2.cloud.goog"
+schemes:
+  - https
+paths:
+  /:
+    get:
+      summary: "Root endpoint"
+      operationId: "rootHandler"
+      responses:
+        200:
+          description: "A successful response"
+      x-google-backend:
+        address: https://customer-site-186096197549.us-central1.run.app
+        protocol: h2
+x-google-endpoints:
+  - name: "shopsphere-api.endpoints.refined-oven-469220-v2.cloud.goog"
+    allowCors: true
+
